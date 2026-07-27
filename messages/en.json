@@ -1,0 +1,94 @@
+{
+  "Header": {
+    "home": "Home",
+    "about": "About",
+    "exam": "Exam"
+  },
+  "Hero": {
+    "title": "Hisho (飛翔)",
+    "tagline": "Next-generation trading software built for the Japanese stock market."
+  },
+  "About": {
+    "title": "Our Mission",
+    "description": "We are developing an innovative trading platform tailored specifically for Japan's stock market. Our goal is to provide an intuitive, high-speed, and reliable trading environment to help investors soar."
+  },
+  "Timeline": {
+    "title": "Launch Timeline",
+    "description": "Currently in development. Targeting launch in Q2–Q3 2027."
+  },
+  "Ecommerce": {
+    "title": "E-commerce Services",
+    "description": "In addition to our trading system, we are planning to offer seamless e-commerce services in the future."
+  },
+  "Exam": {
+    "title": "Internship Exam",
+    "description": "Please enter your Exam ID and name to begin.",
+    "examIdLabel": "Exam ID",
+    "nameLabel": "Name (Optional)",
+    "submit": "Start Exam",
+    "submitting": "Verifying...",
+    "errors": {
+      "invalid": "Invalid Exam ID.",
+      "completed": "This Exam ID has already been used and cannot be reused.",
+      "internal": "An internal error occurred. Please try again."
+    }
+  },
+  "Session": {
+    "Rules": {
+      "title": "Exam Rules & Consent",
+      "rule1": "This exam has a strict time limit of exactly 80 minutes, starting the moment you click 'Start.'",
+      "rule2": "AI tools are strictly forbidden. Copy and paste is disabled throughout the exam.",
+      "rule3": "Passing the coding section alone is not enough — candidates are evaluated on their answers across every section, so you should put effort into all parts, not just the coding questions.",
+      "rule4": "If selected, the position is a paid 2-month internship at a salary of ¥80,000.",
+      "rule5": "If our AI-detection process finds evidence that AI was used, the candidate will be blacklisted from this exam AND from any future position at the company.",
+      "checkbox": "I have read and understood the rules above.",
+      "start": "Start Exam"
+    },
+    "Timer": {
+      "remaining": "Time Remaining:"
+    },
+    "AntiCheat": {
+      "warning": "Copy/paste is disabled during this exam."
+    },
+    "Exam": {
+      "savedAt": "Saved at",
+      "submit": "Submit Exam",
+      "submitting": "Submitting...",
+      "sectionA": "SECTION A: Text Answers",
+      "sectionB": "SECTION B: Coding Tasks",
+      "sectionC": "SECTION C: Video Uploads",
+      "uploadFile": "Select File",
+      "uploadVideo": "Select Video",
+      "completedTitle": "Exam Completed",
+      "completedMessage": "Your exam has been successfully submitted. Thank you for your time.",
+      "questions": {
+        "q1": "How familiar are you with the trading hours, rules, and general landscape of the Tokyo Stock Exchange (TSE)?",
+        "q2": "What do you see as the biggest cultural or economic barrier for everyday people in Japan looking to start investing in stocks?",
+        "q3": "How would you explain the difference between a \"limit order\" and a \"market order\" to a user who has never traded before?",
+        "q4": "If the Japanese government introduces a new regulation affecting day-trading margins, how would you ensure our company adapts its strategy quickly?",
+        "q5": "Why do you believe a localized trading platform is necessary for Japan, rather than just translating an international app like Robinhood or E-Trade?",
+        "q6": "Building a high-stakes financial platform is stressful. How do you manage your own stress and keep your team focused during critical times, like a major product launch?",
+        "q7": "What do you believe is the single most important soft skill a team member can have when working in the fintech industry?",
+        "q8": "Describe a time you noticed a company process that was inefficient or broken. How did you go about improving it?",
+        "q9": "If the marketing team wants to push an aggressive advertising campaign that you feel slightly misrepresents the platform's actual capabilities, how do you handle that internal conflict?",
+        "q10": "If a major competitor in the Japanese market launches a highly requested feature before we do, how should our company react?",
+        "q11": "Why are you specifically interested in joining a company focused on the Japanese stock market, rather than a generic tech or e-commerce startup?",
+        "q12": "What ethical considerations arise if we introduce social trading features (such as allowing users to view or copy popular portfolios)?",
+        "q13": "If platform analytics show a user has put 100% of their life savings into a single, highly volatile stock, should our platform intervene with a diversification warning, or remain a completely neutral execution tool? Why?",
+        "q14": "How would you explain the concept of the \"bid-ask spread\" to a frustrated beginner who wants to know why their account shows a slight loss the exact second they purchase a stock?",
+        "q15": "Retail trading volume naturally drops during prolonged \"bear markets\" (downtrends). How do we maintain user engagement and provide value on the platform when people are generally afraid to invest?",
+        "q16": "Write a program that accepts a user's age and a boolean indicating if they have a VIP pass. Use if/else if/else logic to determine their entry fee: Under 18 is $10, 18-64 is $20, 65+ is $15. If they have a VIP pass, apply a 50% discount to their final price after the age check.",
+        "q17": "Declare an array of 7 floating-point numbers representing the daily temperatures for a week. Write a loop to iterate through the array and calculate three things: the maximum temperature, the minimum temperature, and the average temperature for the week.",
+        "q18": "Write a program that accepts an integer representing the height of a pyramid. Use nested for loops to print a symmetrical pyramid made of asterisks (*) to the console. The outer loop should handle the rows, while the inner loops handle the spaces and the asterisks.",
+        "q19": "Create an abstract Product class (Abstraction) with a private stockLevel variable (Encapsulation). Create subclasses PhysicalProduct and DigitalProduct (Inheritance). Both must implement a calculateShipping() method, but DigitalProduct should override this to always return $0.00 (Polymorphism).",
+        "q20": "Create an abstract Character class with private health stats accessed only via specific getter methods. Create Mage and Warrior subclasses. Define a common attack() method in the base class, but override it so the Mage casts a spell (calculating magic damage) and the Warrior swings a sword (calculating physical damage).",
+        "q21": "Please record and upload a short video (approximately 1 minute) introducing yourself. Explain why we should offer you this internship and why you believe you are the right fit for this position. You must present entirely in English.",
+        "q22": "Please record and upload a split-screen video explaining your Final Project submission: why you chose to build this specific project over other options, what its practical use is, and how you went about developing it. The video must be split-screen, with one side showing a live walkthrough of your project and the other side showing your face as you speak. You must present entirely in English."
+      }
+    }
+  },
+  "Footer": {
+    "address": "14-31 Musashimachi, Kanazawa, Ishikawa 920-0855, Japan",
+    "copyright": "© 2026 Hisho (飛翔) All Rights Reserved."
+  }
+}

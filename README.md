@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hisho (飛翔)
 
-## Getting Started
+Next-generation trading software corporate site and internal exam portal.
 
-First, run the development server:
+## Tech Stack
+- Next.js 14 (App Router)
+- Tailwind CSS
+- next-intl (i18n)
+- Firebase (Firestore & Auth)
+- Cloudflare R2 (S3-compatible blob storage)
 
+## Environment Variables
+To run this project, you will need the following environment variables. If deploying to Vercel, you must add these in the **Settings > Environment Variables** tab of your Vercel project before deploying.
+
+### Firebase Client (Public)
+Found in your Firebase Console under Project Settings > General > Your apps.
+- `NEXT_PUBLIC_FIREBASE_API_KEY`
+- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+- `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+- `NEXT_PUBLIC_FIREBASE_APP_ID`
+
+### Firebase Admin (Secret)
+Generate a new private key from Firebase Console > Project Settings > Service Accounts.
+- `FIREBASE_PROJECT_ID`
+- `FIREBASE_CLIENT_EMAIL`
+- `FIREBASE_PRIVATE_KEY` (Important: when pasting into Vercel, ensure the `\n` characters are properly formatted or paste the entire multiline string exactly as provided by Firebase).
+
+### Cloudflare R2 (Secret)
+Generated from the Cloudflare Dashboard > R2.
+- `R2_ACCOUNT_ID` (Found on the R2 overview page right side)
+- `R2_ACCESS_KEY_ID` (From an API token with Object Read & Write permissions)
+- `R2_SECRET_ACCESS_KEY`
+- `R2_BUCKET_NAME` (e.g., `hisho-exam-submissions`)
+
+## Deployment to Vercel
+
+1. Push your code to a GitHub repository.
+2. Log in to [Vercel](https://vercel.com) and click **Add New... > Project**.
+3. Import your GitHub repository.
+4. Open the **Environment Variables** accordion.
+5. Copy all the variables listed above from your local `.env.local` file and paste them into Vercel. 
+6. Click **Deploy**.
+7. Once deployed, take your production domain (e.g., `https://hisho.vercel.app`) and add it to the **AllowedOrigins** in your Cloudflare R2 CORS policy!
+
+## Generating Exam IDs
+Run the following script locally to generate single-use exam IDs:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx ts-node scripts/generateExamIds.ts <count>
 ```
+These IDs are automatically saved to your production Firestore if your `.env.local` is configured.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Admin Dashboard
+Access the admin dashboard at `/admin`. You will need to manually create an admin account (Email/Password) in your Firebase Console under the **Authentication** tab.

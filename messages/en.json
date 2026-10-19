@@ -6,7 +6,10 @@
   },
   "Hero": {
     "title": "Hisho (飛翔)",
-    "tagline": "Next-generation trading software built for the Japanese stock market."
+    "tagline": "Next-generation trading software built for the Japanese stock market.",
+    "eyebrow": "Designed for Japan's market",
+    "cta": "Internship exam",
+    "aboutLink": "Explore our mission"
   },
   "About": {
     "title": "Our Mission",
@@ -14,11 +17,13 @@
   },
   "Timeline": {
     "title": "Launch Timeline",
-    "description": "Currently in development. Targeting launch in Q2–Q3 2027."
+    "description": "Currently in development. Targeting launch in Q2–Q3 2027.",
+    "eyebrow": "02 / Roadmap"
   },
   "Ecommerce": {
     "title": "E-commerce Services",
-    "description": "In addition to our trading system, we are planning to offer seamless e-commerce services in the future."
+    "description": "In addition to our trading system, we are planning to offer seamless e-commerce services in the future.",
+    "eyebrow": "03 / Beyond trading"
   },
   "Exam": {
     "title": "Internship Exam",
@@ -36,16 +41,16 @@
   "Session": {
     "Rules": {
       "title": "Exam Rules & Consent",
-      "rule1": "This exam has a strict time limit of exactly 80 minutes, starting the moment you click 'Start.'",
+      "rule1": "You have 2 hours. The countdown begins when you select Start, and the exam automatically closes and submits at zero.",
       "rule2": "AI tools are strictly forbidden. Copy and paste is disabled throughout the exam.",
-      "rule3": "Passing the coding section alone is not enough — candidates are evaluated on their answers across every section, so you should put effort into all parts, not just the coding questions.",
+      "rule3": "We review your written answers, Figma design work, and videos together. Export each Figma deliverable as a PDF or PNG before uploading.",
       "rule4": "If selected, the position is a paid 2-month internship at a salary of ¥80,000.",
       "rule5": "If our AI-detection process finds evidence that AI was used, the candidate will be blacklisted from this exam AND from any future position at the company.",
       "checkbox": "I have read and understood the rules above.",
       "start": "Start Exam"
     },
     "Timer": {
-      "remaining": "Time Remaining:"
+      "remaining": "Time left"
     },
     "AntiCheat": {
       "warning": "Copy/paste is disabled during this exam."
@@ -54,36 +59,58 @@
       "savedAt": "Saved at",
       "submit": "Submit Exam",
       "submitting": "Submitting...",
-      "sectionA": "SECTION A: Text Answers",
-      "sectionB": "SECTION B: Coding Tasks",
+      "sectionA": "SECTION A: Design Thinking",
+      "sectionB": "SECTION B: Figma Design Exercise",
       "sectionC": "SECTION C: Video Uploads",
+      "sectionBBrief": "Design a mobile experience that helps a first-time investor in Japan review a stock and place an order with confidence. Work in one Figma file, then export one PDF or PNG for each deliverable below (20 MB maximum per file).",
+      "sectionCNote": "Upload MP4, MOV, or WebM videos (500 MB maximum each). Allow enough time for uploads to complete before the countdown ends.",
+      "progress": "Completed {completed} of {total}",
+      "uploading": "Uploading {percent}%",
+      "uploaded": "Uploaded",
+      "uploadFailed": "Upload failed",
+      "fileLabel": "File: {name}",
+      "videoLabel": "Video: {name}",
+      "missing": "Complete all questions before submitting. Missing: {questions}",
+      "timeUp": "Time is up. Your exam is being submitted.",
+      "timeUpError": "The connection failed while submitting. Your answers are locked; please retry.",
+      "retrySubmit": "Retry submission",
+      "submitError": "Submission failed. Check your connection and try again.",
+      "invalidFile": "Choose a {formats} file under {size} MB.",
+      "uploadClosed": "The exam has closed.",
+      "uploadPrepareError": "Could not prepare the upload.",
+      "uploadHttpError": "Upload failed ({status}).",
+      "uploadNetworkError": "Network error during upload. Check your connection and retry.",
+      "uploadUnknownError": "Upload failed. Please retry.",
       "uploadFile": "Select File",
       "uploadVideo": "Select Video",
       "completedTitle": "Exam Completed",
       "completedMessage": "Your exam has been successfully submitted. Thank you for your time.",
       "questions": {
-        "q1": "How familiar are you with the trading hours, rules, and general landscape of the Tokyo Stock Exchange (TSE)?",
-        "q2": "What do you see as the biggest cultural or economic barrier for everyday people in Japan looking to start investing in stocks?",
-        "q3": "How would you explain the difference between a \"limit order\" and a \"market order\" to a user who has never traded before?",
-        "q4": "If the Japanese government introduces a new regulation affecting day-trading margins, how would you ensure our company adapts its strategy quickly?",
-        "q5": "Why do you believe a localized trading platform is necessary for Japan, rather than just translating an international app like Robinhood or E-Trade?",
-        "q6": "Building a high-stakes financial platform is stressful. How do you manage your own stress and keep your team focused during critical times, like a major product launch?",
-        "q7": "What do you believe is the single most important soft skill a team member can have when working in the fintech industry?",
-        "q8": "Describe a time you noticed a company process that was inefficient or broken. How did you go about improving it?",
-        "q9": "If the marketing team wants to push an aggressive advertising campaign that you feel slightly misrepresents the platform's actual capabilities, how do you handle that internal conflict?",
-        "q10": "If a major competitor in the Japanese market launches a highly requested feature before we do, how should our company react?",
-        "q11": "Why are you specifically interested in joining a company focused on the Japanese stock market, rather than a generic tech or e-commerce startup?",
-        "q12": "What ethical considerations arise if we introduce social trading features (such as allowing users to view or copy popular portfolios)?",
-        "q13": "If platform analytics show a user has put 100% of their life savings into a single, highly volatile stock, should our platform intervene with a diversification warning, or remain a completely neutral execution tool? Why?",
-        "q14": "How would you explain the concept of the \"bid-ask spread\" to a frustrated beginner who wants to know why their account shows a slight loss the exact second they purchase a stock?",
-        "q15": "Retail trading volume naturally drops during prolonged \"bear markets\" (downtrends). How do we maintain user engagement and provide value on the platform when people are generally afraid to invest?",
-        "q16": "Write a program that accepts a user's age and a boolean indicating if they have a VIP pass. Use if/else if/else logic to determine their entry fee: Under 18 is $10, 18-64 is $20, 65+ is $15. If they have a VIP pass, apply a 50% discount to their final price after the age check.",
-        "q17": "Declare an array of 7 floating-point numbers representing the daily temperatures for a week. Write a loop to iterate through the array and calculate three things: the maximum temperature, the minimum temperature, and the average temperature for the week.",
-        "q18": "Write a program that accepts an integer representing the height of a pyramid. Use nested for loops to print a symmetrical pyramid made of asterisks (*) to the console. The outer loop should handle the rows, while the inner loops handle the spaces and the asterisks.",
-        "q19": "Create an abstract Product class (Abstraction) with a private stockLevel variable (Encapsulation). Create subclasses PhysicalProduct and DigitalProduct (Inheritance). Both must implement a calculateShipping() method, but DigitalProduct should override this to always return $0.00 (Polymorphism).",
-        "q20": "Create an abstract Character class with private health stats accessed only via specific getter methods. Create Mage and Warrior subclasses. Define a common attack() method in the base class, but override it so the Mage casts a spell (calculating magic damage) and the Warrior swings a sword (calculating physical damage).",
-        "q21": "Please record and upload a short video (approximately 1 minute) introducing yourself. Explain why we should offer you this internship and why you believe you are the right fit for this position. You must present entirely in English.",
-        "q22": "Please record and upload a split-screen video explaining your Final Project submission: why you chose to build this specific project over other options, what its practical use is, and how you went about developing it. The video must be split-screen, with one side showing a live walkthrough of your project and the other side showing your face as you speak. You must present entirely in English."
+        "q1": "Walk us through your design process, from receiving a problem to delivering a design.",
+        "q2": "How would you learn what first-time investors in Japan find confusing about a trading app?",
+        "q3": "What questions would you ask a beginner during a user interview?",
+        "q4": "How would you turn user interview findings into design priorities?",
+        "q5": "How would you make a stock detail screen useful to both beginners and experienced investors?",
+        "q6": "How would you explain market orders and limit orders in the interface without overwhelming a beginner?",
+        "q7": "What information should users see before confirming a stock order, and why?",
+        "q8": "How would you help users understand fees, price changes, and potential risk?",
+        "q9": "How would you design an error message when an order cannot be placed?",
+        "q10": "What accessibility checks would you make for a mobile trading app?",
+        "q11": "What would you consider when designing this experience specifically for users in Japan?",
+        "q12": "How do you keep buttons, forms, and other components consistent across screens?",
+        "q13": "Tell us about feedback that changed one of your designs. How did you respond?",
+        "q14": "What would you provide to developers when handing off a Figma design?",
+        "q15": "If a design could encourage risky trading, how would you raise the concern and improve it?",
+        "q16": "You have three usability issues but time to fix only one. How would you decide which to address first?",
+        "q17": "How would you test whether a first-time investor understands your order review screen?",
+        "q18": "After your design launches, what evidence would tell you it improved the user experience?",
+        "q19": "Create a simple user flow from viewing a stock to reviewing and confirming an order. Mark one point where a user might make a mistake.",
+        "q20": "Create low-fidelity wireframes for the stock detail and order review screens.",
+        "q21": "Turn the order review wireframe into a high-fidelity mobile screen. Show the price, quantity, estimated total, and primary action clearly.",
+        "q22": "Design an error state and a successful order confirmation state.",
+        "q23": "Add brief Figma annotations explaining three important design choices, including how the design helps prevent an accidental order.",
+        "q24": "Please record and upload a short video (approximately 1 minute) introducing yourself. Explain why we should offer you this internship and why you believe you are the right fit for this position. You must present entirely in English.",
+        "q25": "Please record and upload a split-screen video explaining your Final Project submission: why you chose to build this specific project over other options, what its practical use is, and how you went about developing it. The video must be split-screen, with one side showing a live walkthrough of your project and the other side showing your face as you speak. You must present entirely in English."
       }
     }
   },

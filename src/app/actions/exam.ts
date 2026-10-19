@@ -33,7 +33,7 @@ export async function loginWithExamId(examId: string, candidateName: string) {
         if (candidateName && !data?.candidateName) {
            transaction.update(candidateRef, { candidateName });
         }
-        cookies().set("EXAM_ID", examId, { httpOnly: true, secure: true, path: "/" });
+        cookies().set("EXAM_ID", examId, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/" });
         return { success: true, status: "in_progress" };
       }
       
@@ -52,7 +52,7 @@ export async function loginWithExamId(examId: string, candidateName: string) {
           answers: {}
         });
         
-        cookies().set("EXAM_ID", examId, { httpOnly: true, secure: true, path: "/" });
+        cookies().set("EXAM_ID", examId, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/" });
         return { success: true, status: "started" };
       }
       

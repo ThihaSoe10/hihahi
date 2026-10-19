@@ -17,11 +17,13 @@ export default function ExamSessionPage() {
   const [error, setError] = useState<string | null>(null);
   const [examState, setExamState] = useState<{
     startedAt: string | null;
+    serverNow: string;
     answers: Record<string, string>;
     status: string;
   } | null>(null);
   const [isStarting, setIsStarting] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isExpired, setIsExpired] = useState(false);
 
   useEffect(() => {
     async function fetchState() {
@@ -35,6 +37,7 @@ export default function ExamSessionPage() {
       } else {
         setExamState({
           startedAt: result.startedAt!,
+          serverNow: result.serverNow!,
           answers: result.answers!,
           status: result.status!,
         });
@@ -48,7 +51,7 @@ export default function ExamSessionPage() {
     setIsStarting(true);
     const result = await startExamTimer();
     if (result.success && result.startedAt) {
-      setExamState(prev => prev ? { ...prev, startedAt: result.startedAt! } : null);
+      setExamState(prev => prev ? { ...prev, startedAt: result.startedAt!, serverNow: result.serverNow! } : null);
     } else {
       setError("Failed to start the exam. Please refresh and try again.");
     }
@@ -56,6 +59,7 @@ export default function ExamSessionPage() {
   };
 
   const handleTimeUp = useCallback(() => {
+    setIsExpired(true);
     const trigger = document.getElementById("examSubmitTrigger");
     if (trigger) {
       trigger.click();
@@ -97,9 +101,10 @@ export default function ExamSessionPage() {
 
   return (
     <AntiCheatWrapper>
-      <Timer startedAt={examState.startedAt} onTimeUp={handleTimeUp} />
+      <Timer startedAt={examState.startedAt} serverNow={examState.serverNow} onTimeUp={handleTimeUp} />
       <ExamForm 
         initialAnswers={examState.answers} 
+        isExpired={isExpired}
         onSubmitComplete={() => setIsCompleted(true)} 
       />
     </AntiCheatWrapper>

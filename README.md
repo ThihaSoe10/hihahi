@@ -53,3 +53,9 @@ These IDs are automatically saved to your production Firestore if your `.env.loc
 
 ## Admin Dashboard
 Access the admin dashboard at `/admin`. You will need to manually create an admin account (Email/Password) in your Firebase Console under the **Authentication** tab.
+
+## Design internship exam
+
+The exam runs for 120 minutes from the moment the candidate accepts the rules. It contains 18 written questions, five Figma deliverables, and two videos. Figma deliverables accept PDF or PNG files up to 20 MB each. Videos accept MP4, MOV, or WebM files up to 500 MB each. The countdown locks the form and submits when it reaches zero; the server also rejects new drafts and upload URLs after the deadline.
+
+For direct browser uploads, the R2 bucket must allow `PUT` from the website's exact origin. A CORS policy should include `PUT` in `AllowedMethods`, `Content-Type` in `AllowedHeaders`, and the production website origin in `AllowedOrigins`. Add the local development origin separately if local upload testing is needed. Confirm that the R2 account ID, bucket name, access key ID, and secret access key belong to the same account and that the token has object write permission. Test an MP4/MOV/WebM upload in the deployed app before inviting candidates.

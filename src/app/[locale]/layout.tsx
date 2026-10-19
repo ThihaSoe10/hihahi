@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
-
-const notoSansJP = Noto_Sans_JP({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
 
 export const metadata: Metadata = {
   title: "Hisho (飛翔) - Next-generation trading software",
@@ -32,7 +26,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${notoSansJP.className} bg-washi text-sumi min-h-screen flex flex-col`}
+        className="bg-washi text-sumi min-h-screen flex flex-col antialiased"
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
@@ -47,31 +41,31 @@ export default async function RootLayout({
 function Header() {
   const t = useTranslations("Header");
   return (
-    <header className="bg-washi-panel border-b border-aizome/10 py-4 px-6 md:px-12 flex items-center justify-between">
-      <div className="flex items-center gap-8">
-        <div className="text-2xl font-bold text-aizome">Hisho</div>
-        <nav className="hidden md:flex gap-6">
+    <header className="border-b border-aizome/15 bg-washi px-6 md:px-12">
+      <div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-4">
+        <Link href="/" className="flex items-baseline gap-2 text-aizome" aria-label="Hisho home"><span className="text-2xl font-semibold tracking-tight">Hisho</span><span className="text-sm">飛翔</span></Link>
+        <nav className="flex items-center gap-5 text-sm md:gap-8" aria-label="Main navigation">
           <Link
             href="/"
-            className="hover:text-aizome transition-colors font-medium text-sumi/80"
+            className="hidden font-medium text-sumi/75 transition-colors hover:text-aizome sm:inline"
           >
             {t("home")}
           </Link>
           <Link
-            href="#about"
-            className="hover:text-aizome transition-colors font-medium text-sumi/80"
+            href="/#about"
+            className="hidden font-medium text-sumi/75 transition-colors hover:text-aizome md:inline"
           >
             {t("about")}
           </Link>
           <Link
             href="/exam"
-            className="hover:text-aizome transition-colors font-medium text-sumi/80"
+            className="rounded-md border border-aizome/25 px-3 py-2 font-semibold text-aizome transition-colors hover:bg-washi-panel"
           >
             {t("exam")}
           </Link>
         </nav>
+        <LanguageSwitcher />
       </div>
-      <LanguageSwitcher />
     </header>
   );
 }
@@ -79,13 +73,13 @@ function Header() {
 function Footer() {
   const t = useTranslations("Footer");
   return (
-    <footer className="bg-aizome text-washi py-8 px-6 md:px-12 mt-16">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="text-lg font-bold">Hisho</div>
-        <div className="text-sm text-washi/80 text-center md:text-left">
+    <footer className="mt-auto border-t border-aizome/15 bg-washi-panel/50 px-6 py-8 md:px-12">
+      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-4 text-aizome md:flex-row md:items-center">
+        <div className="text-lg font-semibold">Hisho <span className="text-sm font-normal">飛翔</span></div>
+        <div className="text-sm text-sumi/65">
           {t("address")}
         </div>
-        <div className="text-sm text-washi/60">{t("copyright")}</div>
+        <div className="text-xs text-sumi/55">{t("copyright")}</div>
       </div>
     </footer>
   );

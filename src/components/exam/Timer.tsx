@@ -1,59 +1,60 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { EXAM_DURATION_MS } from "@/lib/exam-config";
 
 interface TimerProps {
   startedAt: string;
+  serverNow: string;
   onTimeUp: () => void;
 }
 
-export default function Timer({ startedAt, onTimeUp }: TimerProps) {
+export default function Timer({ startedAt, serverNow, onTimeUp }: TimerProps) {
   const t = useTranslations("Session.Timer");
-  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const deadline = new Date(startedAt).getTime() + EXAM_DURATION_MS;
+  const clockOffset = useRef(new Date(serverNow).getTime() - Date.now());
+  const [remaining, setRemaining] = useState(() => Math.max(0, deadline - Date.now() - clockOffset.current));
+  const callback = useRef(onTimeUp);
+  const fired = useRef(false);
 
-  const onTimeUpRef = useRef(onTimeUp);
+  useEffect(() => { callback.current = onTimeUp; }, [onTimeUp]);
+
   useEffect(() => {
-    onTimeUpRef.current = onTimeUp;
-  }, [onTimeUp]);
-
-  useEffect(() => {
-    const start = new Date(startedAt).getTime();
-    const duration = 80 * 60 * 1000; // 80 minutes
-    const deadline = start + duration;
-    
-    let timeIsUp = false;
-
     const tick = () => {
-      const now = Date.now();
-      const remaining = Math.max(0, deadline - now);
-      
-      setTimeLeft(remaining);
-
-      if (remaining <= 0 && !timeIsUp) {
-        timeIsUp = true;
-        onTimeUpRef.current();
+      const next = Math.max(0, deadline - Date.now() - clockOffset.current);
+      setRemaining(next);
+      if (next === 0 && !fired.current) {
+        fired.current = true;
+        callback.current();
       }
     };
-
     tick();
-    const interval = setInterval(tick, 1000);
-    return () => clearInterval(interval);
-  }, [startedAt]);
+    const interval = window.setInterval(tick, 1000);
+    document.addEventListener("visibilitychange", tick);
+    window.addEventListener("focus", tick);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", tick);
+      window.removeEventListener("focus", tick);
+    };
+  }, [deadline]);
 
-  if (timeLeft === null) return null;
-
-  const minutes = Math.floor(timeLeft / 1000 / 60);
-  const seconds = Math.floor((timeLeft / 1000) % 60);
-
-  const isWarning = timeLeft < 5 * 60 * 1000;
+  const totalSeconds = Math.ceil(remaining / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const warning = remaining <= 10 * 60 * 1000;
 
   return (
-    <div className={`fixed bottom-6 right-6 px-6 py-3 rounded-full shadow-lg font-bold text-xl border-2 flex items-center space-x-3 z-40 bg-white ${isWarning ? 'border-kurenai text-kurenai animate-pulse' : 'border-aizome text-aizome'}`}>
-      <span className="text-sm uppercase tracking-wider">{t("remaining")}</span>
-      <span className="font-mono text-2xl">
-        {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-      </span>
+    <div className={`fixed bottom-0 inset-x-0 z-40 border-t px-5 py-3 shadow-[0_-8px_30px_rgba(18,40,41,.08)] ${warning ? "border-kurenai/30 bg-[#fff5f1]" : "border-aizome/15 bg-white"}`}>
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-5">
+        <span className="text-xs font-semibold uppercase tracking-[.18em] text-sumi/70">{t("remaining")}</span>
+        <span className={`font-mono text-2xl font-semibold tabular-nums tracking-tight md:text-3xl ${warning ? "text-kurenai" : "text-aizome"}`} role="timer" aria-live="off">
+          {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+        </span>
+      </div>
+      <div className="absolute bottom-0 left-0 h-1 bg-aizome transition-[width] duration-1000 ease-linear" style={{ width: `${remaining / EXAM_DURATION_MS * 100}%` }} />
     </div>
   );
 }

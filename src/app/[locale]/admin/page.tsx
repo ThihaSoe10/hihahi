@@ -233,9 +233,10 @@ export default function AdminDashboard() {
                 <div className="text-sumi/60 italic">No answers submitted yet.</div>
               )}
 
-              {Object.keys(selectedSub.answers || {}).sort().map(qId => {
-                const isFile = qId.startsWith('q') && parseInt(qId.slice(1)) >= 16;
+              {Object.keys(selectedSub.answers || {}).sort((a, b) => Number(a.slice(1)) - Number(b.slice(1))).map(qId => {
                 const ans = selectedSub.answers[qId];
+                let isFile = false;
+                try { isFile = Boolean(JSON.parse(ans)?.key); } catch { /* Text answer */ }
 
                 return (
                   <div key={qId} className="bg-white p-6 rounded-xl shadow-sm border border-washi-panel">

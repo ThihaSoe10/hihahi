@@ -19,7 +19,8 @@ export default function LanguageSwitcher() {
 
   return (
     <select
-      className="bg-washi border border-aizome/20 rounded px-2 py-1 text-sm focus:outline-none focus:border-aizome disabled:opacity-50 text-sumi cursor-pointer"
+      aria-label="Language"
+      className="cursor-pointer rounded-md border border-aizome/20 bg-transparent px-2 py-2 text-sm text-sumi focus:border-aizome focus:outline-none disabled:opacity-50"
       defaultValue={locale}
       disabled={isPending}
       onChange={onSelectChange}

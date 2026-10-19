@@ -13,32 +13,33 @@ export default function RulesScreen({ onAccept, isStarting }: RulesScreenProps) 
   const [accepted, setAccepted] = useState(false);
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
-      <div className="bg-white rounded-3xl shadow-sm p-10 border border-washi-panel text-sumi">
-        <h1 className="text-3xl font-bold text-aizome mb-8 text-center">{t("title")}</h1>
+    <div className="mx-auto max-w-3xl px-5 py-12 md:py-20">
+      <div className="border border-aizome/15 bg-white p-6 text-sumi md:p-10">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-matsu">Hisho / Design internship</p>
+        <h1 className="mb-8 text-3xl font-semibold tracking-tight text-aizome">{t("title")}</h1>
         
-        <ul className="space-y-4 mb-10 text-lg leading-relaxed list-disc list-inside bg-washi p-8 rounded-xl">
+        <ul className="mb-8 space-y-4 border-y border-aizome/15 py-7 pl-5 text-base leading-relaxed list-disc marker:text-matsu">
           <li>{t("rule1")}</li>
-          <li className="font-bold text-kurenai">{t("rule2")}</li>
+          <li>{t("rule2")}</li>
           <li>{t("rule3")}</li>
           <li>{t("rule4")}</li>
-          <li className="font-bold text-kurenai">{t("rule5")}</li>
+          <li>{t("rule5")}</li>
         </ul>
 
-        <label className="flex items-center space-x-3 cursor-pointer mb-8 select-none border border-aizome/20 p-4 rounded-xl hover:bg-washi-panel transition-colors">
+        <label className="mb-8 flex cursor-pointer items-center gap-3 border border-aizome/15 bg-washi/50 p-4 transition-colors hover:bg-washi-panel">
           <input
             type="checkbox"
-            className="w-6 h-6 text-aizome rounded border-aizome/30 focus:ring-aizome"
+            className="h-5 w-5 shrink-0 text-aizome border-aizome/30 focus:ring-aizome"
             checked={accepted}
             onChange={(e) => setAccepted(e.target.checked)}
           />
-          <span className="text-lg font-medium select-none">{t("checkbox")}</span>
+          <span className="font-medium">{t("checkbox")}</span>
         </label>
 
         <button
           onClick={onAccept}
           disabled={!accepted || isStarting}
-          className="w-full bg-aizome text-white font-bold text-lg py-4 px-6 rounded-xl hover:bg-aizome-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full rounded-md bg-aizome px-6 py-4 text-lg font-semibold text-white transition-colors hover:bg-aizome-light disabled:cursor-not-allowed disabled:opacity-40"
         >
           {isStarting ? "..." : t("start")}
         </button>

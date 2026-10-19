@@ -1,6 +1,7 @@
 import { getApps, initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import * as dotenv from 'dotenv';
+import { randomInt } from 'node:crypto';
 
 // Load environment variables from .env.local
 dotenv.config({ path: '.env.local' });
@@ -28,8 +29,8 @@ function generateId(): string {
   let part1 = '';
   let part2 = '';
   for (let i = 0; i < 4; i++) {
-    part1 += chars.charAt(Math.floor(Math.random() * chars.length));
-    part2 += chars.charAt(Math.floor(Math.random() * chars.length));
+    part1 += chars.charAt(randomInt(chars.length));
+    part2 += chars.charAt(randomInt(chars.length));
   }
   return `HISHO-${part1}-${part2}`;
 }
@@ -48,6 +49,7 @@ async function main() {
   
   const batch = db.batch();
   const generatedIds: string[] = [];
+  const generatedIdSet = new Set<string>();
   let generatedCount = 0;
 
   // Pre-fetch all blacklisted IDs to avoid regenerating them
@@ -57,19 +59,20 @@ async function main() {
   while (generatedCount < count) {
     const examId = generateId();
     
-    if (blacklistedIds.has(examId)) {
+    if (blacklistedIds.has(examId) || generatedIdSet.has(examId)) {
       continue; // Skip blacklisted IDs
     }
 
     const docRef = db.collection('examCandidates').doc(examId);
     
-    batch.set(docRef, {
+    batch.create(docRef, {
       examId,
       status: 'unused',
       createdAt: FieldValue.serverTimestamp(),
     });
     
     generatedIds.push(examId);
+    generatedIdSet.add(examId);
     generatedCount++;
   }
 
@@ -79,6 +82,7 @@ async function main() {
     generatedIds.forEach((id) => console.log(`- ${id}`));
   } catch (error) {
     console.error('Error saving to Firestore:', error);
+    process.exitCode = 1;
   }
 }
 

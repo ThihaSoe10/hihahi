@@ -44,10 +44,11 @@ export default function ExamLogin() {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-6 py-16 md:py-24">
-      <div className="bg-white rounded-3xl shadow-sm p-10 border border-washi-panel">
-        <h1 className="text-3xl font-bold text-aizome mb-4 text-center">{t("title")}</h1>
-        <p className="text-sumi/80 mb-8 text-center">{t("description")}</p>
+    <div className="mx-auto max-w-xl px-5 py-14 md:py-24">
+      <div className="border border-aizome/15 bg-white p-6 md:p-10">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-matsu">Hisho / Design internship</p>
+        <h1 className="mb-3 text-3xl font-semibold tracking-tight text-aizome">{t("title")}</h1>
+        <p className="mb-8 text-sumi/70">{t("description")}</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -60,7 +61,7 @@ export default function ExamLogin() {
               required
               value={examId}
               onChange={(e) => setExamId(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-aizome/20 focus:border-aizome focus:ring-1 focus:ring-aizome outline-none transition-colors"
+              className="w-full rounded-md border border-aizome/25 bg-washi/40 px-4 py-3 outline-none transition-colors focus:border-aizome focus:ring-2 focus:ring-aizome/15"
               placeholder="HISHO-XXXX-XXXX"
             />
           </div>
@@ -74,7 +75,7 @@ export default function ExamLogin() {
               id="name"
               value={candidateName}
               onChange={(e) => setCandidateName(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-aizome/20 focus:border-aizome focus:ring-1 focus:ring-aizome outline-none transition-colors"
+              className="w-full rounded-md border border-aizome/25 bg-washi/40 px-4 py-3 outline-none transition-colors focus:border-aizome focus:ring-2 focus:ring-aizome/15"
               placeholder="John Doe"
             />
           </div>
@@ -88,7 +89,7 @@ export default function ExamLogin() {
           <button
             type="submit"
             disabled={isLoading || !examId.trim()}
-            className="w-full bg-aizome text-white font-bold py-3 px-4 rounded-lg hover:bg-aizome-light transition-colors disabled:opacity-50"
+              className="w-full rounded-md bg-aizome px-4 py-3 font-semibold text-white transition-colors hover:bg-aizome-light disabled:opacity-40"
           >
             {isLoading ? t("submitting") : t("submit")}
           </button>

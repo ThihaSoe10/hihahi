@@ -3,6 +3,13 @@
 import { adminDb } from "@/lib/firebase-admin";
 import { cookies } from "next/headers";
 import { FieldValue } from "firebase-admin/firestore";
+import { EXAM_DURATION_MS } from "@/lib/exam-config";
+
+const SUBMISSION_NETWORK_GRACE_MS = 15 * 1000;
+
+function hasExpired(startedAt: { toDate: () => Date } | undefined): boolean {
+  return Boolean(startedAt && Date.now() >= startedAt.toDate().getTime() + EXAM_DURATION_MS);
+}
 
 function getExamId(): string {
   const cookieStore = cookies();
@@ -16,8 +23,9 @@ function getExamId(): string {
 export async function getExamState() {
   try {
     const examId = getExamId();
-    const candidateDoc = await adminDb.collection("examCandidates").doc(examId).get();
-    const submissionDoc = await adminDb.collection("examSubmissions").doc(examId).get();
+    const candidateRef = adminDb.collection("examCandidates").doc(examId);
+    const submissionRef = adminDb.collection("examSubmissions").doc(examId);
+    const [candidateDoc, submissionDoc] = await Promise.all([candidateRef.get(), submissionRef.get()]);
 
     if (!candidateDoc.exists || !submissionDoc.exists) {
       return { success: false, error: "Exam data not found." };
@@ -30,10 +38,22 @@ export async function getExamState() {
       return { success: false, status: "completed" };
     }
 
+    if (hasExpired(candidate.startedAt)) {
+      await adminDb.runTransaction(async (transaction) => {
+        const freshCandidate = await transaction.get(candidateRef);
+        if (freshCandidate.data()?.status !== "in_progress") return;
+        transaction.update(candidateRef, { status: "completed", completedAt: FieldValue.serverTimestamp() });
+        transaction.update(submissionRef, { status: "completed", completedAt: FieldValue.serverTimestamp() });
+      });
+      cookies().delete("EXAM_ID");
+      return { success: false, status: "completed" };
+    }
+
     return {
       success: true,
       status: candidate.status,
       startedAt: candidate.startedAt ? candidate.startedAt.toDate().toISOString() : null,
+      serverNow: new Date().toISOString(),
       answers: submission.answers || {},
     };
   } catch (error) {
@@ -55,7 +75,8 @@ export async function startExamTimer() {
       if (!doc.exists) throw new Error("Not found");
       const data = doc.data();
 
-      if (!data?.startedAt) {
+      if (data?.status !== "in_progress") throw new Error("Exam is unavailable");
+      if (!data.startedAt) {
         transaction.update(candidateRef, { startedAt: now });
         transaction.update(submissionRef, { startedAt: now });
       }
@@ -65,6 +86,7 @@ export async function startExamTimer() {
     return {
       success: true,
       startedAt: updated.data()?.startedAt?.toDate().toISOString(),
+      serverNow: new Date().toISOString(),
     };
   } catch (error) {
     console.error("Start exam error:", error);
@@ -80,25 +102,15 @@ export async function autosaveExam(answers: Record<string, string>): Promise<Exa
   try {
     const examId = getExamId();
     const submissionRef = adminDb.collection("examSubmissions").doc(examId);
-    const candidateDoc = await adminDb.collection("examCandidates").doc(examId).get();
-    const candidateData = candidateDoc.data();
-    
-    if (candidateData?.startedAt) {
-      const startedAt = candidateData.startedAt.toDate();
-      const elapsed = Date.now() - startedAt.getTime();
-      const maxDuration = 80 * 60 * 1000; // 80 minutes
-      const gracePeriod = 60 * 1000; // 1 minute grace period
-      
-      if (elapsed > maxDuration + gracePeriod) {
-        return submitExam(answers);
-      }
-    }
-
-    await submissionRef.update({
-      answers,
-      lastSavedAt: FieldValue.serverTimestamp()
+    const candidateRef = adminDb.collection("examCandidates").doc(examId);
+    const saved = await adminDb.runTransaction(async (transaction) => {
+      const candidateDoc = await transaction.get(candidateRef);
+      const candidate = candidateDoc.data();
+      if (candidate?.status !== "in_progress" || !candidate.startedAt || hasExpired(candidate.startedAt)) return false;
+      transaction.update(submissionRef, { answers, lastSavedAt: FieldValue.serverTimestamp() });
+      return true;
     });
-    
+    if (!saved) return { success: false, error: "Exam is closed" };
     return { success: true, timestamp: new Date().toISOString() };
   } catch (error) {
     console.error("Autosave error:", error);
@@ -112,22 +124,23 @@ export async function submitExam(answers: Record<string, string>): Promise<ExamA
     const candidateRef = adminDb.collection("examCandidates").doc(examId);
     const submissionRef = adminDb.collection("examSubmissions").doc(examId);
     
-    const now = FieldValue.serverTimestamp();
-
-    const batch = adminDb.batch();
-    
-    batch.update(candidateRef, {
-      status: "completed",
-      completedAt: now
+    await adminDb.runTransaction(async (transaction) => {
+      const [candidateDoc, submissionDoc] = await Promise.all([
+        transaction.get(candidateRef),
+        transaction.get(submissionRef),
+      ]);
+      const candidate = candidateDoc.data();
+      if (candidate?.status !== "in_progress" || !candidate.startedAt || !submissionDoc.exists) {
+        throw new Error("Exam is unavailable");
+      }
+      const deadline = candidate.startedAt.toDate().getTime() + EXAM_DURATION_MS;
+      const finalAnswers = Date.now() <= deadline + SUBMISSION_NETWORK_GRACE_MS
+        ? answers
+        : (submissionDoc.data()?.answers || {});
+      const completedAt = FieldValue.serverTimestamp();
+      transaction.update(candidateRef, { status: "completed", completedAt });
+      transaction.update(submissionRef, { status: "completed", completedAt, answers: finalAnswers });
     });
-    
-    batch.update(submissionRef, {
-      status: "completed",
-      completedAt: now,
-      answers,
-    });
-    
-    await batch.commit();
 
     cookies().delete("EXAM_ID");
     

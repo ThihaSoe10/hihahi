@@ -133,7 +133,7 @@ export default function ExamForm({ initialAnswers, isExpired, onSubmitComplete }
     return (
       <article key={id} className="rounded-xl border border-aizome/15 bg-white p-5 md:p-6">
         <div className="flex gap-4">
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-washi-panel text-xs font-bold text-aizome">{number}</span>
+          <span translate="no" className="notranslate flex h-8 w-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-washi-panel text-xs font-bold tabular-nums text-aizome">{String(number)}</span>
           <div className="min-w-0 flex-1">
             <label htmlFor={id} className="block text-base font-medium leading-relaxed text-sumi">{tQ(id)}</label>
             <input id={id} type="file" disabled={isExpired || isSubmitting}
@@ -175,7 +175,7 @@ export default function ExamForm({ initialAnswers, isExpired, onSubmitComplete }
             const id = `q${number}`;
             return <div key={id} className="rounded-xl border border-aizome/15 bg-white p-5 md:p-6">
               <label htmlFor={id} className="flex items-start gap-4 text-base font-medium leading-relaxed text-sumi">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-washi-panel text-xs font-bold text-aizome">{number}</span>
+                <span translate="no" className="notranslate flex h-8 w-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-washi-panel text-xs font-bold tabular-nums text-aizome">{String(number)}</span>
                 <span>{tQ(id)}</span>
               </label>
               <textarea id={id} rows={3} value={answers[id] || ""} onChange={event => updateAnswer(id, event.target.value)}
